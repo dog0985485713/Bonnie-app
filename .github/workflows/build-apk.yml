@@ -1,0 +1,35 @@
+name: Build Bonnie APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.11.1"
+
+      - name: Extract project
+        run: |
+          mkdir bonnie-project
+          unzip Bonnie-project-v0.3.zip -d bonnie-project
+
+      - name: Build APK
+        working-directory: bonnie-project
+        run: gradle --no-daemon assembleDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Bonnie-debug-apk
+          path: bonnie-project/app/build/outputs/apk/debug/app-debug.apk
