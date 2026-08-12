@@ -23,7 +23,7 @@ jobs:
       - name: Extract project
         run: |
           mkdir bonnie-project
-          unzip Bonnie-project-v2.19.zip -d bonnie-project
+          unzip Bonnie-project-v2.22.zip -d bonnie-project
 
       - name: Build APK
         working-directory: bonnie-project
