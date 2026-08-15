@@ -1,4 +1,4 @@
-name: Build Bonnie APK
+name: Build Bonnie v2.68 Release
 
 on:
   workflow_dispatch:
@@ -24,18 +24,12 @@ jobs:
         with:
           gradle-version: "8.11.1"
 
-      - name: Extract Bonnie project
-        run: |
-          mkdir bonnie-project
-          unzip Bonnie-project-v2.68.zip -d bonnie-project
-
-      - name: Build debug APK
-        working-directory: bonnie-project
-        run: gradle --no-daemon assembleDebug
+      - name: Build fixed-signed APK
+        run: gradle --no-daemon assembleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: Bonnie-debug-apk
-          path: bonnie-project/app/build/outputs/apk/debug/app-debug.apk
+          name: Bonnie-v2.68-fixed-signed-apk
+          path: app/build/outputs/apk/release/app-release.apk
           if-no-files-found: error
